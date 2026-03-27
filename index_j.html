@@ -1,0 +1,283 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Мастер подсказок</title>
+
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+
+<style>
+:root {
+  --purple: #6b5ee3;
+  --purple-light: #ebe9fd;
+  --purple-dark: #4a3fc4;
+  --green: #1a7f4b;
+  --green-light: #e6f5ee;
+  --red: #d94f3d;
+  --red-light: #fdecea;
+  --gray-50: #f7f7f8;
+  --gray-100: #eeeef0;
+  --gray-200: #dcdce0;
+  --gray-400: #9898a3;
+  --gray-600: #5c5c66;
+  --gray-900: #16161a;
+  --bg: #f2f2f4;
+  --card: #ffffff;
+  --border: rgba(0,0,0,0.07);
+  --shadow-sm: 0 1px 3px rgba(0,0,0,0.06), 0 1px 2px rgba(0,0,0,0.04);
+  --radius: 14px;
+  --radius-sm: 9px;
+  --font: 'Inter', sans-serif;
+  --mono: 'Inter', sans-serif;
+}
+
+* { box-sizing: border-box; margin: 0; padding: 0; }
+
+body {
+  font-family: var(--font);
+  background: var(--bg);
+  color: var(--gray-900);
+  min-height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+  padding: 40px 16px;
+}
+
+.card.master-tips {
+  background: var(--card);
+  border-radius: var(--radius);
+  border: 1px solid var(--border);
+  box-shadow: var(--shadow-sm);
+  padding: 22px;
+  max-width: 460px;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.card.master-tips .app-title {
+  font-size: 13px;
+  font-weight: 500;
+  color: var(--gray-400);
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  margin-bottom: 4px;
+}
+
+.field-label-purple {
+  font-size: 11px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.07em;
+  color: var(--purple);
+  margin-bottom: 6px;
+  display: block;
+}
+
+.master-tips select {
+  width: 100%;
+  padding: 9px 12px;
+  border-radius: var(--radius-sm);
+  border: 1px solid var(--gray-200);
+  font-family: var(--mono);
+  font-size: 13px;
+  font-weight: 500;
+  color: var(--gray-900);
+  background: var(--gray-50);
+  cursor: pointer;
+  transition: all .15s;
+  outline: none;
+  margin-bottom: 12px;
+}
+.master-tips select:hover { border-color: var(--purple); }
+.master-tips select:focus {
+  border-color: var(--purple);
+  background: #fff;
+  box-shadow: 0 0 0 3px rgba(107,94,227,0.12);
+}
+
+.master-tips .step-title {
+  font-size: 11px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.07em;
+  color: var(--purple);
+  margin-bottom: 6px;
+}
+
+.master-tips .loss-item {
+  font-family: var(--mono);
+  font-size: 13px;
+  color: var(--gray-900);
+  padding: 8px 12px;
+  border-radius: var(--radius-sm);
+  background: var(--gray-50);
+  box-shadow: var(--shadow-sm);
+  opacity: 0;
+  transform: translateY(6px);
+  transition: opacity .3s, transform .3s;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.master-tips .loss-item.show {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.master-tips .loss-item::before {
+  content: '';
+  display: inline-block;
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: var(--purple); /* фиолетовый цвет */
+  flex-shrink: 0;
+}
+
+.nav-buttons {
+  margin-top: 16px;
+  display: flex;
+  justify-content: flex-end;
+}
+
+.btn-primary {
+  padding: 9px 18px;
+  border-radius: var(--radius-sm);
+  border: none;
+  cursor: pointer;
+  font-family: var(--font);
+  font-size: 13px;
+  font-weight: 600;
+  transition: all .15s;
+  background: var(--purple);
+  color: #fff;
+}
+.btn-primary:hover { background: var(--purple-dark); box-shadow: 0 4px 12px rgba(107,94,227,0.3); }
+.btn-primary:active { transform: scale(0.97); }
+.btn-primary:disabled {
+  opacity: 0.4;
+  cursor: not-allowed;
+  box-shadow: none;
+}
+</style>
+</head>
+<body>
+
+<div class="card master-tips">
+  <div class="app-title">Мастер подсказок</div>
+
+  <div class="field-row">
+    <label for="process-select" class="field-label-purple">Выберите процесс:</label>
+    <select id="process-select">
+      <option value="">-- выберите процесс --</option>
+      <option value="Закупки">Закупки</option>
+      <option value="Производство">Производство</option>
+      <option value="Логистика">Логистика</option>
+      <option value="Продажи">Продажи</option>
+      <option value="Инвестиции">Инвестиции</option>
+      <option value="Управление">Управление</option>
+    </select>
+  </div>
+
+  <div class="field-row">
+    <div class="step-title">Потери возникают, если компания:</div>
+    <div id="loss-items" class="step" style="display: flex; flex-direction: column; gap: 6px;"></div>
+  </div>
+
+  <div class="nav-buttons">
+    <button id="go-recommendation" class="btn-primary" disabled>Перейти в рекомендацию</button>
+  </div>
+</div>
+
+<script>
+const processSelect = document.getElementById('process-select');
+const lossItems = document.getElementById('loss-items');
+const goBtn = document.getElementById('go-recommendation');
+
+const processData = {
+  "Закупки": {
+    losses: [
+      "Покупает материальные ресурсы и услуги по завышенным ценам. Не хеджирует валютные риски, работая с зарубежными поставщиками",
+      "Закупает лишние ресурсы или приобретает их меньше, чем нужно для удовлетворения спроса",
+      "Не принимает эффективных мер для того, чтобы поставщики и подрядчики выполняли свои обязательства по договорам",
+      "Работает с неблагонадежными контрагентами"
+    ],
+    recommendation: "https://1fd.ru/#/document/86/175582/"
+  },
+  "Производство": {
+    losses: [
+      "Не контролирует состояние и условия эксплуатации оборудования",
+      "Не принимает меры для снижение брака",
+      "Не следит за ростом естественной убыли и технологических потерь",
+      "Срывает сроки исполнения заказов"
+    ],
+    recommendation: "https://1fd.ru/#/document/86/175583/"
+  },
+  "Логистика": {
+    losses: [
+      "Не соблюдает условия хранения и транспортировки материальных ресурсов",
+      "Не принимает меры против хищений",
+      "Не следит за исправностью машин и оборудования, необходимых для соблюдения условий транcпортировки и хранения материальных ресурсов",
+      "Не обеспечивает согласованность действий подразделений на этапах закупки, хранения, использования или реализации материальных ресурсов"
+    ],
+    recommendation: "https://1fd.ru/#/document/86/175584/"
+  },
+  "Продажи": {
+    losses: [
+      "Не актуалитизирует ценовую политику",
+      "Не контролирует скидки и отсрочки, которые предоставляют клиентам сотрудники отдела продаж",
+      "Имеет в товарной линейке продукты, которые не пользуются спросом",
+      "Неэффективно борется с просроченной дебиторкой"
+    ],
+    recommendation: "https://1fd.ru/#/document/86/175585/"
+  },
+  "Инвестиции": {
+    losses: [
+      "Реализует инвестиционные проекты без предварительного тщательного анализа",
+      "Не рассматривает, как выгоднее использовать активы, оставшиеся после закрытия инвестиционного проекта",
+      "Платит контрагентам штрафы за неисполнение договорных обязательств при закрытии инвестиционного проекта. Не обсуждает альтернативные варианты компенсации",
+      "Не оценивает эффективность направлений бизнеса"
+    ],
+    recommendation: "https://1fd.ru/#/document/86/175586/"
+  },
+  "Управление": {
+    losses: [
+      "Не контролирует состояние обслуживающих банков",
+      "Нарушает условия кредитных договоров",
+      "Не контролирует эффективность бизнес-процессов",
+      "Не выполняет обязательства перед государством, нарушает нормативные акты"
+    ],
+    recommendation: "https://1fd.ru/#/document/86/175587/"
+  }
+};
+
+processSelect.addEventListener('change', () => {
+  const selected = processSelect.value;
+  lossItems.innerHTML = '';
+
+  if(selected && processData[selected]){
+    processData[selected].losses.forEach((loss, i) => {
+      const div = document.createElement('div');
+      div.textContent = loss;
+      div.className = 'loss-item';
+      lossItems.appendChild(div);
+      setTimeout(() => div.classList.add('show'), i * 80);
+    });
+
+    goBtn.disabled = false;
+    goBtn.onclick = () => {
+      window.open(processData[selected].recommendation, "_blank");
+    };
+  } else {
+    goBtn.disabled = true;
+  }
+});
+</script>
+
+</body>
+</html>
