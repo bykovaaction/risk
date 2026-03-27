@@ -118,11 +118,24 @@ body {
   opacity: 0;
   transform: translateY(6px);
   transition: opacity .3s, transform .3s;
+  display: flex;
+  align-items: center;
+  gap: 8px;
 }
 
 .master-tips .loss-item.show {
   opacity: 1;
   transform: translateY(0);
+}
+
+.master-tips ..loss-item::before {
+  content: '';
+  display: inline-block;
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: var(--purple); /* фиолетовый цвет */
+  flex-shrink: 0;
 }
 
 .nav-buttons {
