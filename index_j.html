@@ -9,9 +9,9 @@
 
 <style>
 :root {
-  --purple: #6b5ee3;
-  --purple-light: #ebe9fd;
-  --purple-dark: #4a3fc4;
+--purple: #b18f20;
+--purple-light: #f6edd2;
+--purple-dark: #8c6f18;
   --green: #1a7f4b;
   --green-light: #e6f5ee;
   --red: #d94f3d;
@@ -172,7 +172,7 @@ body {
   <div class="app-title">Мастер подсказок</div>
 
   <div class="field-row">
-    <label for="process-select" class="field-label-purple">Выберите процесс:</label>
+    <label for="process-select" class="field-label-purple">Узнайте, по каким причинам компания может нести потери:</label>
     <select id="process-select">
       <option value="">-- выберите процесс --</option>
       <option value="Закупки">Закупки</option>
@@ -188,11 +188,6 @@ body {
     <div class="step-title">Потери возникают, если компания:</div>
     <div id="loss-items" class="step" style="display: flex; flex-direction: column; gap: 6px;"></div>
   </div>
-
-  <div class="nav-buttons">
-    <button id="go-recommendation" class="btn-primary" disabled>Перейти в рекомендацию</button>
-  </div>
-</div>
 
 <script>
 const processSelect = document.getElementById('process-select');
